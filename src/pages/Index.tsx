@@ -3,9 +3,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Index = () => {
+  const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const profiles = [
     {
       id: 1,
@@ -18,6 +37,16 @@ const Index = () => {
       district: "Центральный",
       phone: "+7 (383) 555-0123",
       photo: "/img/43978e41-82b0-49f1-97e1-0eebeaeb06d5.jpg",
+      photos: [
+        "/img/43978e41-82b0-49f1-97e1-0eebeaeb06d5.jpg",
+        "/img/bd9f4f8f-b117-4dd5-b4da-7bcf61495a4e.jpg",
+        "/img/35bdb577-aa53-4467-b317-003fe13a35e4.jpg",
+      ],
+      description:
+        "Привет! Меня зовут Анна, работаю маркетологом. Люблю активный отдых, путешествия и хорошие книги. Ищу серьёзные отношения с добрым и честным человеком.",
+      interests: ["путешествия", "чтение", "йога", "кино"],
+      education: "Высшее экономическое",
+      work: "Маркетолог",
     },
     {
       id: 2,
@@ -30,6 +59,16 @@ const Index = () => {
       district: "Октябрьский",
       phone: "+7 (383) 555-0124",
       photo: "/img/08c534d3-edc5-4697-8d45-b48bb548d427.jpg",
+      photos: [
+        "/img/08c534d3-edc5-4697-8d45-b48bb548d427.jpg",
+        "/img/c2563903-407d-43d5-9e2e-ae7ded60c9f3.jpg",
+        "/img/bd9f4f8f-b117-4dd5-b4da-7bcf61495a4e.jpg",
+      ],
+      description:
+        "Меня зовут Елена, я дизайнер интерьеров. Очень творческий человек, обожаю создавать красоту вокруг себя. В свободное время рисую и хожу на выставки.",
+      interests: ["дизайн", "искусство", "рисование", "выставки"],
+      education: "Высшее художественное",
+      work: "Дизайнер интерьеров",
     },
     {
       id: 3,
@@ -42,6 +81,16 @@ const Index = () => {
       district: "Советский",
       phone: "+7 (383) 555-0125",
       photo: "/img/33c8050b-c39a-4271-b838-2a579eeb9dd8.jpg",
+      photos: [
+        "/img/33c8050b-c39a-4271-b838-2a579eeb9dd8.jpg",
+        "/img/35bdb577-aa53-4467-b317-003fe13a35e4.jpg",
+        "/img/c2563903-407d-43d5-9e2e-ae7ded60c9f3.jpg",
+      ],
+      description:
+        "Привет! Я Мария, преподаю английский язык детям. Очень люблю животных, у меня есть кошка. Ищу надёжного партнёра для создания семьи.",
+      interests: ["языки", "животные", "преподавание", "природа"],
+      education: "Высшее филологическое",
+      work: "Преподаватель английского",
     },
     {
       id: 4,
@@ -54,6 +103,15 @@ const Index = () => {
       district: "Железнодорожный",
       phone: "+7 (383) 555-0126",
       photo: "/img/43978e41-82b0-49f1-97e1-0eebeaeb06d5.jpg",
+      photos: [
+        "/img/43978e41-82b0-49f1-97e1-0eebeaeb06d5.jpg",
+        "/img/bd9f4f8f-b117-4dd5-b4da-7bcf61495a4e.jpg",
+      ],
+      description:
+        "Меня зовут Ольга, работаю врачом. Очень ответственный человек, забочусь о здоровье других. Хочу найти мужчину, который разделит со мной интересы.",
+      interests: ["медицина", "здоровье", "спорт", "семья"],
+      education: "Высшее медицинское",
+      work: "Врач-терапевт",
     },
     {
       id: 5,
@@ -66,6 +124,15 @@ const Index = () => {
       district: "Заельцовский",
       phone: "+7 (383) 555-0127",
       photo: "/img/08c534d3-edc5-4697-8d45-b48bb548d427.jpg",
+      photos: [
+        "/img/08c534d3-edc5-4697-8d45-b48bb548d427.jpg",
+        "/img/c2563903-407d-43d5-9e2e-ae7ded60c9f3.jpg",
+      ],
+      description:
+        "Привет! Меня зовут Татьяна, я психолог. Помогаю людям решать их проблемы, но и сама ищу поддержку в лице любящего мужчины. Очень домашняя.",
+      interests: ["психология", "саморазвитие", "кулинария", "дом"],
+      education: "Высшее психологическое",
+      work: "Психолог",
     },
     {
       id: 6,
@@ -78,8 +145,25 @@ const Index = () => {
       district: "Кировский",
       phone: "+7 (383) 555-0128",
       photo: "/img/33c8050b-c39a-4271-b838-2a579eeb9dd8.jpg",
+      photos: [
+        "/img/33c8050b-c39a-4271-b838-2a579eeb9dd8.jpg",
+        "/img/35bdb577-aa53-4467-b317-003fe13a35e4.jpg",
+        "/img/bd9f4f8f-b117-4dd5-b4da-7bcf61495a4e.jpg",
+      ],
+      description:
+        "Меня зовут Екатерина, работаю юристом. Очень целеустремлённая, но в душе мечтательная. Люблю театр, классическую музыку и романтические прогулки.",
+      interests: ["право", "театр", "музыка", "прогулки"],
+      education: "Высшее юридическое",
+      work: "Юрист",
     },
   ];
+
+  const handleViewProfile = (profileId: number) => {
+    setSelectedProfile(profileId);
+    setIsDialogOpen(true);
+  };
+
+  const selectedProfileData = profiles.find((p) => p.id === selectedProfile);
 
   return (
     <div className="min-h-screen bg-white font-roboto">
@@ -191,7 +275,11 @@ const Index = () => {
                           {profile.eyeColor}
                         </Badge>
                       </div>
-                      <Button size="sm" className="w-full">
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => handleViewProfile(profile.id)}
+                      >
                         <Icon name="Eye" className="mr-2" size={16} />
                         Смотреть анкету
                       </Button>
@@ -209,6 +297,126 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Profile Details Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedProfileData && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">
+                  {selectedProfileData.name}, {selectedProfileData.age} лет
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="space-y-6">
+                {/* Photo Gallery */}
+                <div className="w-full">
+                  <Carousel className="w-full">
+                    <CarouselContent>
+                      {selectedProfileData.photos.map((photo, index) => (
+                        <CarouselItem key={index}>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src={photo}
+                              alt={`${selectedProfileData.name} фото ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                </div>
+
+                {/* Basic Info */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600">Рост</p>
+                    <p className="font-medium">
+                      {selectedProfileData.height} см
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Вес</p>
+                    <p className="font-medium">
+                      {selectedProfileData.weight} кг
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Цвет глаз</p>
+                    <p className="font-medium">
+                      {selectedProfileData.eyeColor}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Цвет волос</p>
+                    <p className="font-medium">
+                      {selectedProfileData.hairColor}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Район</p>
+                    <p className="font-medium">
+                      {selectedProfileData.district}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Телефон</p>
+                    <p className="font-medium">{selectedProfileData.phone}</p>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Description */}
+                <div>
+                  <h4 className="font-semibold mb-2">О себе</h4>
+                  <p className="text-gray-700 font-open-sans">
+                    {selectedProfileData.description}
+                  </p>
+                </div>
+
+                {/* Professional Info */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600">Образование</p>
+                    <p className="font-medium">
+                      {selectedProfileData.education}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Работа</p>
+                    <p className="font-medium">{selectedProfileData.work}</p>
+                  </div>
+                </div>
+
+                {/* Interests */}
+                <div>
+                  <h4 className="font-semibold mb-2">Интересы</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProfileData.interests.map((interest, index) => (
+                      <Badge key={index} variant="secondary">
+                        {interest}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Contact Button */}
+                <div className="pt-4">
+                  <Button className="w-full" size="lg">
+                    <Icon name="Phone" className="mr-2" size={20} />
+                    Связаться: {selectedProfileData.phone}
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Contact Section */}
       <section id="contact" className="py-16 bg-gray-50">
